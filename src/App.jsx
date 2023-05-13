@@ -120,7 +120,7 @@ function App() {
 const [scroll, setScroll] = useState(false);
  useEffect(() => {
    window.addEventListener("scroll", () => {
-     setScroll(window.scrollY > (document.body.scrollHeight - 1500));
+     setScroll( window.scrollY > (document.body.scrollHeight - 1500) && window.scrollY > 2000);
    });
  }, []);
 
