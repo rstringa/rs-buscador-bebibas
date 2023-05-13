@@ -3,8 +3,8 @@ import 'normalize.css';
 import "./App.css"
 import Lottie from "lottie-react";
 import CoctailAnimation from "./assets/coctail-animation.json";
-import CoctailAnimation2 from "./assets/coctail-animation-2.json";
 import Modal from './components/Modal';
+import Spinner from './components/Spinner';
 
 function App() {
 
@@ -12,9 +12,10 @@ function App() {
   const [bebidas, setBebidas] = useState([])
   const [categoria, setCategoria] = useState("")
   const [opcionesCategoria, setOpcionesCategoria] = useState([])
-  const [bebidaSeleccionada, setBebidaSeleccionada] = useState(null);
+  const [bebidaSeleccionada, setBebidaSeleccionada] = useState(null)
   const [pantallaInicial, setPantallaInicial] = useState(true)
   const [pantallaError, setPantallaError] = useState(false)
+  const [showSpinner, setShowSpinner] = useState(false)
   const body = document.getElementsByTagName('body')[0];
 
   // Obtener Categorias
@@ -64,11 +65,18 @@ function App() {
       // Verificar si existen bebidas en los datos
       if (data.drinks ) {
         
-        setBebidas(data.drinks.map((bebida) => ({ ...bebida, detalles: null })));
+        setShowSpinner(true);
         setPantallaInicial(false);
         setPantallaError(false);
-      } else {
-        
+        setBebidas([]);
+
+        setTimeout(() => {
+          setBebidas(data.drinks.map((bebida) => ({ ...bebida, detalles: null })));
+          setShowSpinner(false);
+     
+        }, 2000); // Mostrar el spinner durante 2 segundos
+
+      } else { 
         setBebidas([]);
         setPantallaInicial(true);
       }
@@ -88,7 +96,6 @@ function App() {
   };
 
   const handleVerReceta = async (id) => {
-   
     const detalles = await obtenerDetallesBebida(id);
     setBebidaSeleccionada(detalles);
     body.classList.add('modal--open');
@@ -102,6 +109,7 @@ function App() {
     setBebidaSeleccionada(null);
     setPantallaInicial(true);
     setPantallaError(false);
+    setShowSpinner(false);
   }
   const handleCloseModal = () => {
     setBebidaSeleccionada(null);
@@ -150,6 +158,7 @@ const [scroll, setScroll] = useState(false);
               <option key={index}>{opcion}</option>
             ))}
           </select>
+          <div className="caret"></div>
            </div>
            <div className='box-buscador__col col--last'>
                
@@ -178,7 +187,9 @@ const [scroll, setScroll] = useState(false);
       }
      
       <div className='box-resultado'>
-
+      {showSpinner &&
+        <Spinner />
+      }
         <ul>
           {bebidas.map((bebida) => (
             <li className='box-resultado__item' key={bebida.idDrink}>
