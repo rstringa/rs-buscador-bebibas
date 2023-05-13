@@ -1,0 +1,298 @@
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+:root {
+  --bg-color: #1f1d2b;
+  --bg-elements: #252836;
+  --bg-inputs:#1f1d2b;
+  --text-color:#fff;
+  --border-radius:25px;
+  --primary-color:#d4b300;
+  --primary-color-light:#e7e7e7;
+}
+@media all and (max-width:990px) { 
+  :root { 
+    --border-radius:15px;
+  }
+}
+body {
+  font-family: Inter;
+  font-weight: 400;
+  color:var(--text-color);
+  background: var(--bg-color);
+  padding-bottom: 200px;
+}
+h1.titulo {
+    background-image: 
+    linear-gradient(357deg, #f1dc39 25%, #c96e05 87%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    font-size: 4.5rem;
+    margin-bottom: 0px;
+}
+h3.subtitulo {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 100;
+  transform: translateY(-20px);
+}
+/* Buscador */
+.box-buscador {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  background-color:var(--bg-elements);
+  padding:20px 40px;
+  border-radius:var(--border-radius);
+  z-index: 10;
+}
+
+
+.box-buscador .box-buscador__form {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 1fr 1fr auto;
+}
+
+.box-buscador .box-buscador__col {
+
+}
+.box-buscador .box-buscador__col.col--last {
+  display: flex;
+  align-items: end;
+  gap:0px; 
+}
+.box-buscador .box-buscador__label {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 7px;
+  margin-left: 28px;
+  color:#aeaeae
+}
+.box-buscador .box-buscador__text, 
+.box-buscador .box-buscador__select {
+  width: 100%;
+  background-color: var(--bg-inputs);
+  border: 0;
+  color: #fff;
+  padding: 15px 25px;
+  border-radius: 50px;
+  height: 60px;
+  font-size: 1.1rem;
+}
+.box-buscador .box-buscador__text:focus-visible, 
+.box-buscador .box-buscador__select:focus-visible {
+  outline: 0;
+}
+.box-buscador .box-buscador__text:focus, 
+.box-buscador .box-buscador__select:focus{
+  border:1px solid var(--primary-color)
+}
+.box-buscador .box-buscador__select {
+ 
+}
+.box-buscador__submit {
+  height: 60px;
+  width: 210px;
+  background-color: var(--primary-color);
+  color:var(--bg-color);
+  border:1px solid transparent;
+  border-radius: var(--border-radius);
+  padding: 15px 25px;
+  cursor: pointer;
+}
+.box-buscador__submit:hover {
+  opacity: 0.85;
+}
+.box-buscador__reset {
+  height: 60px;
+  background-color: var(--bg-elements);
+  color:var(--primary-color-light);
+  border:1px solid transparent;
+  border-radius: var(--border-radius);
+  padding: 15px 25px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+.box-buscador__reset:hover {
+  opacity: 0.85;
+} 
+
+/* Box Resultado */
+.box-resultado {
+  padding-top: 40px;
+}
+.box-resultado ul{
+  list-style: none;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap:40px;
+  width: 100%;
+  max-width: 1200px;
+}
+.box-resultado__item{
+  background: var(--bg-elements);
+  width: 100%;
+  border-radius: 25px;
+  transition: transform 0.5s;
+}
+.box-resultado__item:hover {
+  transform: scale(1.05);
+  transform-origin: center center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.25);
+}
+.box-resultado__img {
+  width: 100%;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  min-height: 250px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+.box-resultado__item__info {
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+.box-resultado__h2 {
+  font-size:1.7rem;
+  font-weight: 400;
+  color:var(--primary-color-light);
+  margin: 10px 0 30px 0;
+}
+.box-resultado__a {
+  text-decoration: none;
+  display: grid;
+  grid-template-rows: 1fr 200px;
+  height: 100%;
+}
+
+.box-resultado__p {
+  background-color: var(--primary-color);
+  color:var(--bg-elements);
+  padding: 15px 25px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  transition: opacity 0.25s;
+  margin: 0;
+}
+.box-resultado__p:hover {
+  opacity: 0.85;
+}
+
+/* Pantalla Inicial */
+.pantalla-inicial {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  padding:20px 40px;
+  position: relative;
+}
+
+.pantalla-inicial svg {
+    position: absolute;
+    height: 80vh!important;
+    top: -10vh;
+    left:0;
+    z-index: 0;
+    pointer-events: none;
+}
+/* Pantalla Error */
+  .box-error {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: var(--bg-elements);
+    padding: 30px 20px;
+    border-radius: var(--border-radius);
+  }
+  .box-error h3 {
+    margin: 0;
+    font-weight: 100;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+@media all and (max-width:990px) {
+  body {
+    padding-bottom: 100px;
+  }
+  h1.titulo {
+    font-size:3.5rem;
+    line-height: 1;
+    padding-bottom: 10px;
+  }
+  h3.subtitulo {
+    transform: none;
+    margin-top: 8px;
+  }
+  .box-buscador {
+    width: auto;
+    margin: 0 20px;
+    padding: 30px 20px 0 20px;
+  }
+  .box-buscador .box-buscador__form {
+    grid-template-columns: 100%;
+    grid-template-rows: auto;
+  }
+  .box-buscador .box-buscador__col {
+    margin-bottom: 10px;
+  }
+  .box-buscador .box-buscador__col.col--last {
+    flex-direction: column;
+    align-items: center;
+  }
+  .box-buscador .box-buscador__label {
+    margin-left: 0;
+    text-align: center;
+  }
+  .box-resultado ul {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap:20px;
+  }
+  .box-resultado li {
+    border-radius: var(--border-radius);
+  }
+  .box-resultado__a {
+    grid-template-rows: 1fr auto;
+}
+  .pantalla-inicial {
+    height: 40vh;
+    overflow: hidden;
+  }
+  .pantalla-inicial svg {
+    position: absolute;
+    bottom: auto;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+    top: -20vh;
+  }
+  .box-error {
+    width: calc(100% - 40px)
+  }
+
+}
+@media all and (min-width:991px) {
+ /* .box-buscador.is--fixed {
+    position: fixed;
+    bottom:0px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.5s;
+    box-shadow: 0px -5px 15px rgba(0,0,0,.25);
+  }*/
+}

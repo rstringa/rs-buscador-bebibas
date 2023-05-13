@@ -1,0 +1,125 @@
+.modal .modal-content{
+    position: fixed;
+    background: #1f1d2b;
+    backdrop-filter: blur(10px);
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.55);
+    z-index: 10;
+    width: 90%;
+    max-width: 760px;
+    height: auto;
+    top: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    animation:modal 1s ease-in-out;
+    border-radius: var(--border-radius); 
+  }
+
+  body.modal--open .modal{
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height: 100%;
+    background: rgb(0 0 0 / 75%);
+    backdrop-filter: saturate(0.15);
+    z-index: 10;
+    overflow-y: auto;
+  }
+  .modal-content{
+    position: relative;
+
+  }
+  .modal-content__close {
+    position: absolute;
+    right:20px;
+    top:0px;
+    z-index: 1;
+    cursor: pointer;
+    font-size: 45px;
+    transition: transform 0.25s;
+  }
+  .modal-content__close:hover {
+    transform: rotate(-25deg)
+  }
+  .modal-content__image {
+    aspect-ratio: 1/1;
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+  }
+  .modal-content__info {
+    width: 65%;
+    margin: auto;
+    background-color: #1f1d2b;
+    padding: 40px 30px 30px;
+    border-radius: var(--border-radius);
+    position: absolute;
+    z-index: 2;
+    right: -90px;
+    bottom:20px;
+    box-shadow: 5px 5px 5px rgb(0 0 0 / 47%);
+    animation:modal-info 1.5s ease-in-out;
+  }
+  .modal-content__info h2 {
+    color:var(--primary-color);
+    font-size: 1.7rem;
+    max-width: 80%;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  .modal-content__info h4{
+    font-weight: 100;
+    margin-top: 0;
+  } 
+  .modal-content__info p {
+    font-size: 1.15rem;
+  }
+  .modal-content__info ul {
+   padding-left: 0;
+   margin-left: 20px;
+   line-height: 1.45;
+  }
+
+  @keyframes modal {
+    from {
+      top:-100vh;
+    }
+    to{
+      top: 5vh;
+    }
+}
+  @keyframes modal-info {
+    from {
+      bottom:-100px;
+    }
+    to{
+      bottom: 20px;
+    }
+}
+
+@media all and (max-width:990px){
+  .modal-content__info {
+    width: 100%;
+    margin: auto;
+    padding: 40px 30px 30px;
+    position: relative;
+    right: auto;
+    bottom: 0;
+    margin-top: -10px;
+}
+    .modal-content__image {
+      width: 100vw;
+      position: relative;
+      left: -20px;
+  }
+
+  @keyframes modal-info {
+    from {
+      bottom:-100px;
+    }
+    to{
+      bottom: 0px;
+    }
+}
+}
