@@ -61,6 +61,9 @@
     box-shadow: 5px 5px 5px rgb(0 0 0 / 47%);
     animation:modal-info 1.5s ease-in-out;
   }
+  .modal-content__info .btn-favorito {
+    margin-bottom: 5px;
+  }
   .modal-content__info h2 {
     color:var(--primary-color);
     font-size: 1.7rem;

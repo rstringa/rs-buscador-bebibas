@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import "./Modal.css"
+import { ImStarFull } from "react-icons/im";
 
-const Modal = ({ bebidaSeleccionada, setBebidaSeleccionada, handleCloseModal }) => {
+const Modal = ({ bebidaSeleccionada, setBebidaSeleccionada, handleCloseModal, setFavoritos }) => {
   const [favorito, setFavorito] = useState(false);
 
   useEffect(() => {
@@ -12,11 +13,18 @@ const Modal = ({ bebidaSeleccionada, setBebidaSeleccionada, handleCloseModal }) 
       if (event.target.classList.contains("modal")) {
         setBebidaSeleccionada(null)
         handleCloseModal();
+
       }
 
     });
   }, [])
 
+ /* const actualizarFavoritos = ()=>{
+    const favoritos = JSON.parse(localStorage.getItem('favoritos'));
+    setFavoritos([...favoritos]);
+    console.log(favoritos);
+  }  
+  */
   const comprobarFavoritoInicial = () => {
     // Obtener los favoritos existentes del localStorage
     const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
@@ -47,7 +55,7 @@ const Modal = ({ bebidaSeleccionada, setBebidaSeleccionada, handleCloseModal }) 
       // Guardar el array actualizado en el localStorage
       localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
       setFavorito(true);
-
+  
     }
 
   }
@@ -64,10 +72,10 @@ const Modal = ({ bebidaSeleccionada, setBebidaSeleccionada, handleCloseModal }) 
           <span className="modal-content__close" onClick={handleCloseModal}>
             &times;
           </span>
-          <button
+          <ImStarFull
             className={favorito ? "btn-favorito is--favorito" : "btn-favorito"}
             onClick={() => handleFavorito(bebidaSeleccionada.idDrink)}
-          >F</button>
+          />
           <h2>{bebidaSeleccionada.strDrink}</h2>
           <h4>{bebidaSeleccionada.strGlass}</h4>
           <p>{bebidaSeleccionada.strInstructions}</p>

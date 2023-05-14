@@ -5,6 +5,8 @@ import Lottie from "lottie-react";
 import CoctailAnimation from "./assets/coctail-animation.json";
 import Modal from './components/Modal';
 import Spinner from './components/Spinner';
+import { ImStarFull } from "react-icons/im";
+import { ImHome } from "react-icons/im";
 
 function App() {
 
@@ -16,9 +18,12 @@ function App() {
   const [pantallaInicial, setPantallaInicial] = useState(true)
   const [pantallaError, setPantallaError] = useState(false)
   const [showSpinner, setShowSpinner] = useState(false)
-  
-  const body = document.getElementsByTagName('body')[0];
+  const [verFavoritos, setVerFavoritos] = useState(false)
+  const [hayFavoritos, setHayFavoritos] = useState(false)
+  const [favoritos, setFavoritos] = useState([])
 
+  const body = document.getElementsByTagName('body')[0];
+ 
   // Obtener Categorias
   useEffect(() => {
     const obtenerCategorias = async () => {
@@ -69,6 +74,7 @@ function App() {
         setShowSpinner(true);
         setPantallaInicial(false);
         setPantallaError(false);
+        setVerFavoritos(false);
         setBebidas([]);
 
         setTimeout(() => {
@@ -111,6 +117,7 @@ function App() {
     setPantallaInicial(true);
     setPantallaError(false);
     setShowSpinner(false);
+    setVerFavoritos(false);
   }
   const handleCloseModal = () => {
     setBebidaSeleccionada(null);
@@ -126,16 +133,40 @@ function App() {
   }, []);
 
   const EsFavorito = (bebida) => {
-    const favoritos = JSON.parse(localStorage.getItem('favoritos'));
-    const existeFavorito = favoritos.some(favorito => favorito.idDrink === bebida.idDrink);
+    const favoritosStorage = JSON.parse(localStorage.getItem('favoritos'));
+    const existeFavorito = favoritosStorage && favoritosStorage.some(favorito => favorito.idDrink === bebida.idDrink);
     return existeFavorito;
   }
+  const handleVerFavoritos = () => {
+    setVerFavoritos(true);
+    setPantallaInicial(false);
+    setPantallaError(false);
+    setBebidas([]);
+    const nuevosFavoritos = JSON.parse(localStorage.getItem('favoritos'));
+    setFavoritos(nuevosFavoritos || []);
 
+    // Comprobar si hay favoritos
+    const hayFavoritos = nuevosFavoritos && nuevosFavoritos.length > 0;
+    setHayFavoritos(hayFavoritos);
+  }
   return (
     <>
+
       <h1 className='titulo'>Cocktails & Tragos</h1>
       <h3 className='subtitulo'>Buscador de bebidas</h3>
       <div className={scroll ? "box-buscador is--fixed" : "box-buscador"}>
+      <div 
+      className="box-buscador__reset"
+      onClick={handleResetAll}> 
+      <ImHome/>
+      </div>
+      <div 
+      onClick = {  handleVerFavoritos }
+      className='header-favoritos'>
+        <ImStarFull
+          className= "btn-favorito"
+        />Mis  Favoritos
+      </div>
         <form className="box-buscador__form" onSubmit={handleSubmit}>
           <div className='box-buscador__col'>
             <label className="box-buscador__label" htmlFor="nombre">Nombre del trago</label>
@@ -172,10 +203,7 @@ function App() {
             <button
               type="submit"
               className="box-buscador__submit">Buscar Bebidas</button>
-            <button
-              type="button"
-              onClick={handleResetAll}
-              className="box-buscador__reset">Borrar</button>
+            
           </div>
         </form>
       </div>
@@ -214,10 +242,12 @@ function App() {
                   src={bebida.strDrinkThumb} alt={bebida.strDrink} />
                 <div className='box-resultado__item__info'>
                   <h2 className='box-resultado__h2'>{bebida.strDrink}</h2>
-                  <button
+                  <div className='box-resultado__favorito'>
+                  <ImStarFull
                     className={EsFavorito(bebida) ? "btn-favorito is--favorito" : "btn-favorito"}
 
-                  >F</button>
+                  />
+                  </div>
                   <p
                     className='box-resultado__p'
                   >Ver Receta</p>
@@ -236,8 +266,57 @@ function App() {
           bebidaSeleccionada={bebidaSeleccionada}
           setBebidaSeleccionada={setBebidaSeleccionada}
           handleCloseModal={handleCloseModal}
-
+          setFavoritos={setFavoritos}
         />
+      }
+
+      {verFavoritos &&
+       <div className='box-favoritos'>
+        <h2 className='box-favoritos__titulo'>Mis Favoritos</h2>
+
+        <div className='box-resultado'>
+        { hayFavoritos ?
+         (
+        <ul>
+          {favoritos.map((favorito) => (
+            <li className='box-resultado__item' key={favorito.idDrink}>
+              <a
+                className='box-resultado__a'
+                href="#"
+                onClick={function (e) {
+                  e.preventDefault();
+                  handleVerReceta(favorito.idDrink)
+
+                }}
+              >
+                <img
+                  className='box-resultado__img'
+                  src={favorito.strDrinkThumb} alt={favorito.strDrink} />
+                <div className='box-resultado__item__info'>
+                  <h2 className='box-resultado__h2'>{favorito.strDrink}</h2>
+                  
+              <div className='box-resultado__favorito'>
+                  <ImStarFull
+                    className={EsFavorito(favorito) ? "btn-favorito is--favorito" : "btn-favorito"}
+
+                  />
+                  </div>
+                  <p
+                    className='box-resultado__p'
+                  >Ver Receta</p>
+
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+         ) : (
+          <div class="box-error"><h3>No tienes tragos favoritos aún.</h3></div>
+         )
+        }
+  
+      </div>
+      </div>
       }
 
     </>
