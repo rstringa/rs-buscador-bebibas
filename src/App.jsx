@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react'
 import 'normalize.css';
 import "./App.css"
-import Lottie from "lottie-react";
-import CoctailAnimation from "./assets/coctail-animation.json";
+/* Componentes */
+import { useState, useEffect } from 'react'
 import Modal from './components/Modal';
 import Spinner from './components/Spinner';
+/* Extras */
+import Lottie from "lottie-react";
+import CoctailAnimation from "./assets/coctail-animation.json";
 import { ImStarFull } from "react-icons/im";
 import { ImHome } from "react-icons/im";
 
 function App() {
-
   const [bebida, setBebida] = useState("")
   const [bebidas, setBebidas] = useState([])
   const [categoria, setCategoria] = useState("")
@@ -21,7 +22,6 @@ function App() {
   const [verFavoritos, setVerFavoritos] = useState(false)
   const [hayFavoritos, setHayFavoritos] = useState(false)
   const [favoritos, setFavoritos] = useState([])
-
   const body = document.getElementsByTagName('body')[0];
  
   // Obtener Categorias
@@ -142,12 +142,16 @@ function App() {
     setPantallaInicial(false);
     setPantallaError(false);
     setBebidas([]);
+
+    // Listado de Favoritos desde LocalStorage
     const nuevosFavoritos = JSON.parse(localStorage.getItem('favoritos'));
     setFavoritos(nuevosFavoritos || []);
 
     // Comprobar si hay favoritos
     const hayFavoritos = nuevosFavoritos && nuevosFavoritos.length > 0;
     setHayFavoritos(hayFavoritos);
+
+
   }
   return (
     <>
@@ -275,6 +279,9 @@ function App() {
         <h2 className='box-favoritos__titulo'>Mis Favoritos</h2>
 
         <div className='box-resultado'>
+        {showSpinner &&
+          <Spinner />
+        }
         { hayFavoritos ?
          (
         <ul>
@@ -311,7 +318,7 @@ function App() {
           ))}
         </ul>
          ) : (
-          <div class="box-error"><h3>No tienes tragos favoritos aún.</h3></div>
+          <div className="box-error"><h3>No tienes tragos favoritos aún.</h3></div>
          )
         }
   
