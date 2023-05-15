@@ -4,12 +4,13 @@ import "./App.css"
 import { useState, useEffect } from 'react'
 import Modal from './components/Modal';
 import Spinner from './components/Spinner';
+import { ResultadosBusqueda } from './components/ResultadosBusqueda';
+import { VerFavoritos } from './components/VerFavoritos';
 /* Extras */
 import Lottie from "lottie-react";
 import CoctailAnimation from "./assets/coctail-animation.json";
 import { ImStarFull } from "react-icons/im";
 import { ImHome } from "react-icons/im";
-import { ResultadosBusqueda } from './components/ResultadosBusqueda';
 
 function App() {
   const [bebida, setBebida] = useState("")
@@ -46,22 +47,22 @@ obtenerCategorias()
       return
     }
 
-    obtenerBebidas()
+    obtenerListadoTragos()
 
   }
 
-  const obtenerBebidas = async () => {
+  const obtenerListadoTragos = async () => {
     let url = "";
 
     if (categoria && bebida) {
 
-      url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoria}&i=${bebida}`;
+      url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoria}&s=${bebida}`;
     } else if (categoria && !bebida) {
 
       url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoria}`;
     } else if (!categoria && bebida) {
 
-      url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${bebida}`;
+      url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${bebida}`;
     }
 
     let response = await fetch(url);
@@ -112,17 +113,18 @@ obtenerCategorias()
     body.classList.add('modal--open');
   };
 
-  const handleResetAll = e => {
-    e.preventDefault()
-    setBebidas([]);
-    setBebida([]);
-    setCategoria([]);
-    setBebidaSeleccionada(null);
-    setPantallaInicial(true);
-    setPantallaError(false);
-    setShowSpinner(false);
-    setVerFavoritos(false);
-  }
+const handleVolverPantallaInicial = (e) => {
+      e.preventDefault();
+      setBebidas([]);
+      setBebida([]);
+      setCategoria([]);
+      setBebidaSeleccionada(null);
+      setPantallaInicial(true);
+      setPantallaError(false);
+      setShowSpinner(false);
+      setVerFavoritos(false);
+    };
+
   const handleCloseModal = () => {
     setBebidaSeleccionada(null);
     body.classList.toggle('modal--open');
@@ -166,7 +168,7 @@ obtenerCategorias()
   }
 
 
-  // Toggle Favorito si/no en Resultados de bsqueda
+  // Toggle activar Favorito en Resultados de busqueda
   const handleToogleItemFavorito = (bebidaActual) => {
  
     // Obtener los favoritos existentes del localStorage
@@ -199,7 +201,7 @@ obtenerCategorias()
       <div className={scroll ? "box-buscador is--fixed" : "box-buscador"}>
         <div
           className="box-buscador__reset"
-          onClick={handleResetAll}>
+          onClick={handleVolverPantallaInicial}>
           <ImHome />
         </div>
         <div
@@ -293,52 +295,12 @@ obtenerCategorias()
           <div className='box-resultado'>
             {hayFavoritos ?
               (
-                <ul>
-                  {favoritos.map((favorito) => (
-                    
-
-<li className='box-resultado__item' key={favorito.idDrink}>
-
-<img
-  className='box-resultado__img'
-  src={favorito.strDrinkThumb} alt={favorito.strDrink} />
-<div className='box-resultado__item__info'>
-  <h2 className='box-resultado__h2'>{favorito.strDrink}</h2>
- 
-  <div
-    className='box-resultado__favorito'
-    data-tooltip={EsFavorito(favorito) ? "Añadido a Mis Favoritos" : "Añadir a Mis Favoritos"}
-  >
-   <a
-    className=''
-    href="#"
-    onClick={function (e) {
-      e.preventDefault();
-      handleToogleItemFavorito(favorito)
-    }} >  
-    <ImStarFull
-      className={EsFavorito(favorito) ? "btn-favorito is--favorito" : "btn-favorito"}
-
-    />
-  </a>
-  </div>
-  <a
-    className='box-resultado__ver'
-    href="#"
-    onClick={function (e) {
-      e.preventDefault();
-      handleVerReceta(favorito.idDrink)
-
-    }}
-  >
-    Ver Receta
-  </a>
-</div>
-
-</li>
-
-                  ))}
-                </ul>
+               <VerFavoritos 
+               favoritos={favoritos}
+               EsFavorito={EsFavorito}
+               handleToogleItemFavorito = {handleToogleItemFavorito}
+               handleVerReceta={ handleVerReceta}
+               />
               ) : (
                 <div className="box-error"><h3>No tienes tragos favoritos aún.</h3></div>
               )

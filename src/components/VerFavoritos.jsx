@@ -1,31 +1,32 @@
 import { ImStarFull } from "react-icons/im";
 
-
-export const ResultadosBusqueda = ({ bebidas, EsFavorito, handleToogleItemFavorito, handleVerReceta }) => {
+export const VerFavoritos = ({ favoritos, EsFavorito, handleToogleItemFavorito, handleVerReceta }) => {
     return (
         <ul>
-            {bebidas.map((bebida) => (
-                <li className='box-resultado__item' key={bebida.idDrink}>
-              
+            {favoritos.map((favorito) => (
+
+
+                <li className='box-resultado__item' key={favorito.idDrink}>
+
                     <img
                         className='box-resultado__img'
-                        src={bebida.strDrinkThumb} alt={bebida.strDrink} />
+                        src={favorito.strDrinkThumb} alt={favorito.strDrink} />
                     <div className='box-resultado__item__info'>
-                        <h2 className='box-resultado__h2'>{bebida.strDrink}</h2>
+                        <h2 className='box-resultado__h2'>{favorito.strDrink}</h2>
 
                         <div
                             className='box-resultado__favorito'
-                            data-tooltip={EsFavorito(bebida) ? "Añadido a Mis Favoritos" : "Añadir a Mis Favoritos"}
+                            data-tooltip={EsFavorito(favorito) ? "Añadido a Mis Favoritos" : "Añadir a Mis Favoritos"}
                         >
                             <a
                                 className=''
                                 href="#"
                                 onClick={function (e) {
                                     e.preventDefault();
-                                    handleToogleItemFavorito(bebida)
+                                    handleToogleItemFavorito(favorito)
                                 }} >
                                 <ImStarFull
-                                    className={EsFavorito(bebida) ? "btn-favorito is--favorito" : "btn-favorito"}
+                                    className={EsFavorito(favorito) ? "btn-favorito is--favorito" : "btn-favorito"}
 
                                 />
                             </a>
@@ -35,7 +36,7 @@ export const ResultadosBusqueda = ({ bebidas, EsFavorito, handleToogleItemFavori
                             href="#"
                             onClick={function (e) {
                                 e.preventDefault();
-                                handleVerReceta(bebida.idDrink)
+                                handleVerReceta(favorito.idDrink)
 
                             }}
                         >
@@ -44,6 +45,7 @@ export const ResultadosBusqueda = ({ bebidas, EsFavorito, handleToogleItemFavori
                     </div>
 
                 </li>
+
             ))}
         </ul>
     )
