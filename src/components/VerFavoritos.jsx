@@ -6,7 +6,7 @@ export const VerFavoritos = ({ favoritos, EsFavorito, handleToogleItemFavorito, 
             {favoritos.map((favorito) => (
 
 
-                <li className='box-resultado__item' key={favorito.idDrink}>
+                <li className={`box-resultado__item id-${favorito.idDrink}`} key={favorito.idDrink}>
 
                     <img
                         className='box-resultado__img'

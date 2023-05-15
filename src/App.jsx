@@ -180,7 +180,20 @@ const handleVolverPantallaInicial = (e) => {
        // La bebida seleccionada ya está en favoritos, se elimina del array
       const nuevosFavoritos = favoritos2.filter(favorito => favorito.idDrink !== bebidaActual.idDrink)
       localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
-      setFavoritos(nuevosFavoritos);
+      
+      // Animacion de Salida cuando se borra un item de Favoritos
+      // Solo para Pantalla de Ver Favoritos
+          if ( verFavoritos ) {
+              let itemActual = body.querySelector(`.id-${bebidaActual.idDrink}`)
+              itemActual ? itemActual.classList.add("animacion-salida") : "";
+              setTimeout(() => {
+                  setFavoritos(nuevosFavoritos);
+                  itemActual ? itemActual.classList.remove("animacion-salida") : "";
+              }, 2000);
+
+          } else {
+              setFavoritos(nuevosFavoritos);
+          }
 
     } else {
       // Agregar la bebida seleccionada al array de favoritos

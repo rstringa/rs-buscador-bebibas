@@ -174,12 +174,24 @@ h3.subtitulo {
   width: 100%;
   border-radius: 25px;
   transition: transform 0.5s;
+  position: relative;
 }
 .box-resultado__item:hover {
   transform: scale(1.05);
   transform-origin: center center;
   box-shadow: 0 0 20px #02020285;
   z-index: 2;
+}
+.box-resultado__item.animacion-salida {
+  animation: animacion-salida 1s forwards;
+}
+@keyframes animacion-salida {
+  from {
+   left:0
+  }
+  to {
+   left:-100vw
+  } 
 }
 .box-resultado__img {
   width: 100%;
@@ -442,3 +454,4 @@ h3.subtitulo {
             transform: scale(1) rotateX(-180deg);
   }
 }
+
