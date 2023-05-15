@@ -61,6 +61,29 @@
     box-shadow: 5px 5px 5px rgb(0 0 0 / 47%);
     animation:modal-info 1.5s ease-in-out;
   }
+  .modal-content__favorito {
+    display: inline-block;
+  }
+  .modal-content__favorito:after {
+    content: attr(data-tooltip);
+    font-size: 13px;
+    color: var(--primary-color-light);
+    background-color: #2f293b;
+    padding: 5px 10px;
+    border-radius: 10px;
+    white-space: nowrap;
+    position: absolute;
+    left: 55px;
+    top: 31px;
+    width: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s;
+}
+  .modal-content__favorito:hover:after {
+    opacity: 1;
+    visibility: visible;
+  }
   .modal-content__info .btn-favorito {
     margin-bottom: 5px;
   }

@@ -72,10 +72,14 @@ const Modal = ({ bebidaSeleccionada, setBebidaSeleccionada, handleCloseModal, se
           <span className="modal-content__close" onClick={handleCloseModal}>
             &times;
           </span>
+          <div 
+           data-tooltip={ favorito ? "Eliminar de Mis Favoritos" : "Añadir a Mis Favoritos"}
+          className="modal-content__favorito">
           <ImStarFull
             className={favorito ? "btn-favorito is--favorito" : "btn-favorito"}
             onClick={() => handleFavorito(bebidaSeleccionada.idDrink)}
           />
+          </div>
           <h2>{bebidaSeleccionada.strDrink}</h2>
           <h4>{bebidaSeleccionada.strGlass}</h4>
           <p>{bebidaSeleccionada.strInstructions}</p>

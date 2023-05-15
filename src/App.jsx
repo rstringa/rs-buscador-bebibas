@@ -76,7 +76,10 @@ function App() {
         setPantallaError(false);
         setVerFavoritos(false);
         setBebidas([]);
-
+        window.scroll({
+          top: 150,
+          behavior: 'smooth'
+        });
         setTimeout(() => {
           setBebidas(data.drinks.map((bebida) => ({ ...bebida, detalles: null })));
           setShowSpinner(false);
@@ -142,7 +145,11 @@ function App() {
     setPantallaInicial(false);
     setPantallaError(false);
     setBebidas([]);
-
+    setShowSpinner(true);
+    window.scroll({
+      top: 200,
+      behavior: 'smooth'
+    });
     // Listado de Favoritos desde LocalStorage
     const nuevosFavoritos = JSON.parse(localStorage.getItem('favoritos'));
     setFavoritos(nuevosFavoritos || []);
@@ -151,6 +158,9 @@ function App() {
     const hayFavoritos = nuevosFavoritos && nuevosFavoritos.length > 0;
     setHayFavoritos(hayFavoritos);
 
+    setTimeout(() => {
+      setShowSpinner(false);
+    }, 2000); // Mostrar el spinner durante 2 segundos
 
   }
   return (
@@ -224,7 +234,7 @@ function App() {
 
         </div>
       }
-
+     
       <div className='box-resultado'>
         {showSpinner &&
           <Spinner />
@@ -246,7 +256,10 @@ function App() {
                   src={bebida.strDrinkThumb} alt={bebida.strDrink} />
                 <div className='box-resultado__item__info'>
                   <h2 className='box-resultado__h2'>{bebida.strDrink}</h2>
-                  <div className='box-resultado__favorito'>
+                  <div 
+                  className='box-resultado__favorito'
+                  data-tooltip={ EsFavorito(bebida) ? "Eliminar de Mis Favoritos" : "Añadir a Mis Favoritos"}
+                  >
                   <ImStarFull
                     className={EsFavorito(bebida) ? "btn-favorito is--favorito" : "btn-favorito"}
 
@@ -279,9 +292,6 @@ function App() {
         <h2 className='box-favoritos__titulo'>Mis Favoritos</h2>
 
         <div className='box-resultado'>
-        {showSpinner &&
-          <Spinner />
-        }
         { hayFavoritos ?
          (
         <ul>
@@ -302,7 +312,9 @@ function App() {
                 <div className='box-resultado__item__info'>
                   <h2 className='box-resultado__h2'>{favorito.strDrink}</h2>
                   
-              <div className='box-resultado__favorito'>
+              <div className='box-resultado__favorito'
+              
+              >
                   <ImStarFull
                     className={EsFavorito(favorito) ? "btn-favorito is--favorito" : "btn-favorito"}
 

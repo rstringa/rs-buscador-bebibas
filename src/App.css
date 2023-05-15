@@ -378,6 +378,22 @@ h3.subtitulo {
     transform: translateX(-50%);
     left: 50%;
 }
+.box-resultado__favorito:after {
+  content : attr(data-tooltip);
+  font-size: 14px;
+  color:var(--primary-color-light);
+  background-color: #1f1d2b;
+  padding: 5px 10px;
+  border-radius: 10px;
+  white-space: nowrap;
+  display: none;
+  overflow: hidden;
+  position: absolute;
+  left:55%;
+}
+.box-resultado__favorito:hover:after {
+ display: block;
+}
 .box-resultado__favorito .btn-favorito {
   background-color:transparent;
   fill:var(--primary-color-light);
