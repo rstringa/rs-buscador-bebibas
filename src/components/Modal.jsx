@@ -73,7 +73,7 @@ const Modal = ({ bebidaSeleccionada, setBebidaSeleccionada, handleCloseModal, se
             &times;
           </span>
           <div 
-           data-tooltip={ favorito ? "Eliminar de Mis Favoritos" : "Añadir a Mis Favoritos"}
+           data-tooltip={ favorito ? "Añadido a Mis Favoritos" : "Añadir a Mis Favoritos"}
           className="modal-content__favorito">
           <ImStarFull
             className={favorito ? "btn-favorito is--favorito" : "btn-favorito"}

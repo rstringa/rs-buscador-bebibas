@@ -23,7 +23,7 @@ function App() {
   const [hayFavoritos, setHayFavoritos] = useState(false)
   const [favoritos, setFavoritos] = useState([])
   const body = document.getElementsByTagName('body')[0];
- 
+
   // Obtener Categorias
   useEffect(() => {
     const obtenerCategorias = async () => {
@@ -163,24 +163,51 @@ function App() {
     }, 2000); // Mostrar el spinner durante 2 segundos
 
   }
+
+
+  // Toggle Favorito si/no en Resultados de bsqueda
+  const handleToogleItemFavorito = (bebidaActual) => {
+ 
+    // Obtener los favoritos existentes del localStorage
+    const favoritos2 = JSON.parse(localStorage.getItem('favoritos')) || [];
+    // Verificar si la bebida seleccionada ya existe en favoritos
+    const existeFavorito = favoritos2.some((favorito) => favorito.idDrink === bebidaActual.idDrink);
+   
+    if (existeFavorito) {
+       // La bebida seleccionada ya está en favoritos, se elimina del array
+      const nuevosFavoritos = favoritos2.filter(favorito => favorito.idDrink !== bebidaActual.idDrink)
+      localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+      setFavoritos(nuevosFavoritos);
+
+    } else {
+      // Agregar la bebida seleccionada al array de favoritos
+      const nuevosFavoritos = [...favoritos2, bebidaActual];
+      // Guardar el array actualizado en el localStorage
+      localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+      setFavoritos(nuevosFavoritos);
+  
+    }
+  }
+
+
   return (
     <>
 
       <h1 className='titulo'>Cocktails & Tragos</h1>
       <h3 className='subtitulo'>Buscador de bebidas</h3>
       <div className={scroll ? "box-buscador is--fixed" : "box-buscador"}>
-      <div 
-      className="box-buscador__reset"
-      onClick={handleResetAll}> 
-      <ImHome/>
-      </div>
-      <div 
-      onClick = {  handleVerFavoritos }
-      className='header-favoritos'>
-        <ImStarFull
-          className= "btn-favorito"
-        />Mis  Favoritos
-      </div>
+        <div
+          className="box-buscador__reset"
+          onClick={handleResetAll}>
+          <ImHome />
+        </div>
+        <div
+          onClick={handleVerFavoritos}
+          className='header-favoritos'>
+          <ImStarFull
+            className="btn-favorito"
+          />Mis  Favoritos
+        </div>
         <form className="box-buscador__form" onSubmit={handleSubmit}>
           <div className='box-buscador__col'>
             <label className="box-buscador__label" htmlFor="nombre">Nombre del trago</label>
@@ -217,7 +244,7 @@ function App() {
             <button
               type="submit"
               className="box-buscador__submit">Buscar Bebidas</button>
-            
+
           </div>
         </form>
       </div>
@@ -234,7 +261,7 @@ function App() {
 
         </div>
       }
-     
+
       <div className='box-resultado'>
         {showSpinner &&
           <Spinner />
@@ -242,35 +269,43 @@ function App() {
         <ul>
           {bebidas.map((bebida) => (
             <li className='box-resultado__item' key={bebida.idDrink}>
-              <a
-                className='box-resultado__a'
-                href="#"
-                onClick={function (e) {
-                  e.preventDefault();
-                  handleVerReceta(bebida.idDrink)
 
-                }}
-              >
-                <img
-                  className='box-resultado__img'
-                  src={bebida.strDrinkThumb} alt={bebida.strDrink} />
-                <div className='box-resultado__item__info'>
-                  <h2 className='box-resultado__h2'>{bebida.strDrink}</h2>
-                  <div 
+              <img
+                className='box-resultado__img'
+                src={bebida.strDrinkThumb} alt={bebida.strDrink} />
+              <div className='box-resultado__item__info'>
+                <h2 className='box-resultado__h2'>{bebida.strDrink}</h2>
+               
+                <div
                   className='box-resultado__favorito'
-                  data-tooltip={ EsFavorito(bebida) ? "Eliminar de Mis Favoritos" : "Añadir a Mis Favoritos"}
-                  >
+                  data-tooltip={EsFavorito(bebida) ? "Añadido a Mis Favoritos" : "Añadir a Mis Favoritos"}
+                >
+                 <a
+                  className=''
+                  href="#"
+                  onClick={function (e) {
+                    e.preventDefault();
+                    handleToogleItemFavorito(bebida)
+                  }} >  
                   <ImStarFull
                     className={EsFavorito(bebida) ? "btn-favorito is--favorito" : "btn-favorito"}
 
                   />
-                  </div>
-                  <p
-                    className='box-resultado__p'
-                  >Ver Receta</p>
-
+                </a>
                 </div>
-              </a>
+                <a
+                  className='box-resultado__ver'
+                  href="#"
+                  onClick={function (e) {
+                    e.preventDefault();
+                    handleVerReceta(bebida.idDrink)
+
+                  }}
+                >
+                 Ver Receta
+                </a>
+              </div>
+
             </li>
           ))}
         </ul>
@@ -288,54 +323,65 @@ function App() {
       }
 
       {verFavoritos &&
-       <div className='box-favoritos'>
-        <h2 className='box-favoritos__titulo'>Mis Favoritos</h2>
+        <div className='box-favoritos'>
+          <h2 className='box-favoritos__titulo'>Mis Favoritos</h2>
 
-        <div className='box-resultado'>
-        { hayFavoritos ?
-         (
-        <ul>
-          {favoritos.map((favorito) => (
-            <li className='box-resultado__item' key={favorito.idDrink}>
-              <a
-                className='box-resultado__a'
-                href="#"
-                onClick={function (e) {
-                  e.preventDefault();
-                  handleVerReceta(favorito.idDrink)
+          <div className='box-resultado'>
+            {hayFavoritos ?
+              (
+                <ul>
+                  {favoritos.map((favorito) => (
+                    
 
-                }}
-              >
-                <img
-                  className='box-resultado__img'
-                  src={favorito.strDrinkThumb} alt={favorito.strDrink} />
-                <div className='box-resultado__item__info'>
-                  <h2 className='box-resultado__h2'>{favorito.strDrink}</h2>
-                  
-              <div className='box-resultado__favorito'
-              
-              >
-                  <ImStarFull
-                    className={EsFavorito(favorito) ? "btn-favorito is--favorito" : "btn-favorito"}
+<li className='box-resultado__item' key={favorito.idDrink}>
 
-                  />
-                  </div>
-                  <p
-                    className='box-resultado__p'
-                  >Ver Receta</p>
+<img
+  className='box-resultado__img'
+  src={favorito.strDrinkThumb} alt={favorito.strDrink} />
+<div className='box-resultado__item__info'>
+  <h2 className='box-resultado__h2'>{favorito.strDrink}</h2>
+ 
+  <div
+    className='box-resultado__favorito'
+    data-tooltip={EsFavorito(favorito) ? "Añadido a Mis Favoritos" : "Añadir a Mis Favoritos"}
+  >
+   <a
+    className=''
+    href="#"
+    onClick={function (e) {
+      e.preventDefault();
+      handleToogleItemFavorito(favorito)
+    }} >  
+    <ImStarFull
+      className={EsFavorito(favorito) ? "btn-favorito is--favorito" : "btn-favorito"}
 
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
-         ) : (
-          <div className="box-error"><h3>No tienes tragos favoritos aún.</h3></div>
-         )
-        }
-  
-      </div>
-      </div>
+    />
+  </a>
+  </div>
+  <a
+    className='box-resultado__ver'
+    href="#"
+    onClick={function (e) {
+      e.preventDefault();
+      handleVerReceta(favorito.idDrink)
+
+    }}
+  >
+    Ver Receta
+  </a>
+</div>
+
+</li>
+
+                  ))}
+                </ul>
+              ) : (
+                <div className="box-error"><h3>No tienes tragos favoritos aún.</h3></div>
+              )
+            }
+
+          </div>
+        </div>
       }
 
     </>
