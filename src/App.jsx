@@ -9,6 +9,7 @@ import Lottie from "lottie-react";
 import CoctailAnimation from "./assets/coctail-animation.json";
 import { ImStarFull } from "react-icons/im";
 import { ImHome } from "react-icons/im";
+import { ResultadosBusqueda } from './components/ResultadosBusqueda';
 
 function App() {
   const [bebida, setBebida] = useState("")
@@ -24,16 +25,16 @@ function App() {
   const [favoritos, setFavoritos] = useState([])
   const body = document.getElementsByTagName('body')[0];
 
-  // Obtener Categorias
-  useEffect(() => {
-    const obtenerCategorias = async () => {
-      const response = await fetch("https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list")
-      const data = await response.json()
-      setOpcionesCategoria(data.drinks.map(drink => drink.strCategory))
-    }
-    obtenerCategorias()
-  }, [])
-
+ 
+ // Obtener Categorias
+ useEffect(() => {
+  const obtenerCategorias = async () => {
+  const response = await fetch("https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list")
+  const data = await response.json()
+  setOpcionesCategoria(data.drinks.map(drink => drink.strCategory))
+}
+obtenerCategorias()
+}, [])
 
   // SUBMIT
   const handleSubmit = e => {
@@ -84,7 +85,7 @@ function App() {
           setBebidas(data.drinks.map((bebida) => ({ ...bebida, detalles: null })));
           setShowSpinner(false);
 
-        }, 2000); // Mostrar el spinner durante 2 segundos
+        }, 1500); // Mostrar el spinner durante 2 segundos
 
       } else {
         setBebidas([]);
@@ -160,7 +161,7 @@ function App() {
 
     setTimeout(() => {
       setShowSpinner(false);
-    }, 2000); // Mostrar el spinner durante 2 segundos
+    }, 1500); // Mostrar el spinner durante 2 segundos
 
   }
 
@@ -266,49 +267,12 @@ function App() {
         {showSpinner &&
           <Spinner />
         }
-        <ul>
-          {bebidas.map((bebida) => (
-            <li className='box-resultado__item' key={bebida.idDrink}>
-
-              <img
-                className='box-resultado__img'
-                src={bebida.strDrinkThumb} alt={bebida.strDrink} />
-              <div className='box-resultado__item__info'>
-                <h2 className='box-resultado__h2'>{bebida.strDrink}</h2>
-               
-                <div
-                  className='box-resultado__favorito'
-                  data-tooltip={EsFavorito(bebida) ? "Añadido a Mis Favoritos" : "Añadir a Mis Favoritos"}
-                >
-                 <a
-                  className=''
-                  href="#"
-                  onClick={function (e) {
-                    e.preventDefault();
-                    handleToogleItemFavorito(bebida)
-                  }} >  
-                  <ImStarFull
-                    className={EsFavorito(bebida) ? "btn-favorito is--favorito" : "btn-favorito"}
-
-                  />
-                </a>
-                </div>
-                <a
-                  className='box-resultado__ver'
-                  href="#"
-                  onClick={function (e) {
-                    e.preventDefault();
-                    handleVerReceta(bebida.idDrink)
-
-                  }}
-                >
-                 Ver Receta
-                </a>
-              </div>
-
-            </li>
-          ))}
-        </ul>
+        <ResultadosBusqueda
+          bebidas={bebidas}
+          EsFavorito={EsFavorito}
+          handleToogleItemFavorito = {handleToogleItemFavorito}
+          handleVerReceta={ handleVerReceta}
+        />
 
       </div>
 
