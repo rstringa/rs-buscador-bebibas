@@ -24,7 +24,7 @@ function App() {
   const [showSpinner, setShowSpinner] = useState(false)
   const [verFavoritos, setVerFavoritos] = useState(false)
   const [hayFavoritos, setHayFavoritos] = useState(false)
-  const [favoritos, setFavoritos] = useState([])
+  const [favoritos, setFavoritos] = useState(JSON.parse(localStorage.getItem('favoritos')))
   const body = document.getElementsByTagName('body')[0];
 
  
@@ -224,7 +224,7 @@ const handleVolverPantallaInicial = (e) => {
           className={`header-favoritos ${favoritos.length ? 'tiene--favoritos' : 'sin--favoritos'}`}>
           <ImStarFull
             className="btn-favorito"
-          />Mis Favoritos 
+          />Mis Favoritos ({favoritos.length})
         </div>
         <form className="box-buscador__form" onSubmit={handleSubmit}>
           <div className='box-buscador__col'>
