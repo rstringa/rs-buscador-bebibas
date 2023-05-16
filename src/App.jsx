@@ -224,7 +224,7 @@ const handleVolverPantallaInicial = (e) => {
           className={`header-favoritos ${favoritos.length ? 'tiene--favoritos' : 'sin--favoritos'}`}>
           <ImStarFull
             className="btn-favorito"
-          />Mis Favoritos <span>({favoritos.length})</span>
+          />Mis Favoritos 
         </div>
         <form className="box-buscador__form" onSubmit={handleSubmit}>
           <div className='box-buscador__col'>
