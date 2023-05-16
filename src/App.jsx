@@ -224,7 +224,7 @@ const handleVolverPantallaInicial = (e) => {
           className='header-favoritos'>
           <ImStarFull
             className="btn-favorito"
-          />Mis  Favoritos
+          />Mis Favoritos <span>({favoritos.length})</span>
         </div>
         <form className="box-buscador__form" onSubmit={handleSubmit}>
           <div className='box-buscador__col'>
