@@ -8,6 +8,7 @@ export const ResultadosBusqueda = ({ bebidas, EsFavorito, handleToogleItemFavori
                 <li className='box-resultado__item' key={bebida.idDrink}>
               
                     <img
+                        loading="lazy"
                         className='box-resultado__img'
                         src={bebida.strDrinkThumb} alt={bebida.strDrink} />
                     <div className='box-resultado__item__info'>
