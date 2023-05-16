@@ -221,7 +221,7 @@ const handleVolverPantallaInicial = (e) => {
         </div>
         <div
           onClick={handleVerFavoritos}
-          className='header-favoritos'>
+          className={`header-favoritos ${favoritos.length ? 'tiene--favoritos' : 'sin--favoritos'}`}>
           <ImStarFull
             className="btn-favorito"
           />Mis Favoritos <span>({favoritos.length})</span>
