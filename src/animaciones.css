@@ -26,3 +26,12 @@
               transform: scale(1) rotateX(-180deg);
     }
   }
+
+  @keyframes animacion-entrada-derecha {
+    from {
+     right:-100%
+    }
+    to {
+     right:0
+    } 
+  }

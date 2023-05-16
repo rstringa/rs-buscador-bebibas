@@ -11,6 +11,7 @@ import Lottie from "lottie-react";
 import CoctailAnimation from "./assets/coctail-animation.json";
 import { ImStarFull } from "react-icons/im";
 import { ImHome } from "react-icons/im";
+import { notificacionFavorito } from "./helpers/helpers";
 
 function App() {
   const [bebida, setBebida] = useState("")
@@ -194,6 +195,7 @@ const handleVolverPantallaInicial = (e) => {
           } else {
               setFavoritos(nuevosFavoritos);
           }
+          notificacionFavorito("Eliminado de Mis Favoritos");
 
     } else {
       // Agregar la bebida seleccionada al array de favoritos
@@ -201,7 +203,7 @@ const handleVolverPantallaInicial = (e) => {
       // Guardar el array actualizado en el localStorage
       localStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
       setFavoritos(nuevosFavoritos);
-  
+      notificacionFavorito("Añadido a Mis Favoritos");
     }
   }
 

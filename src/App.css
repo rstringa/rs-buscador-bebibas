@@ -311,6 +311,9 @@ h3.subtitulo {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap:20px;
   }
+  .box-resultado__item:hover {
+    transform: scale(1);
+  }
   .box-resultado__h2 {
     margin: 10px 0 50px 0;
   }
@@ -428,5 +431,26 @@ h3.subtitulo {
   color: #404457;
 }
 
+.mensaje-favorito {
+  position: fixed;
+  z-index:100 ;
+  top:40px;
+  right:0;
+  padding: 15px 25px;
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+  animation: animacion-entrada-derecha 1s cubic-bezier(0.22,0.61,0.36,1);
+  box-shadow: 5px 4px 6px 3px rgba(0,0,0,.5);
+  
+}
+.mensaje-favorito p {
+  font-size: 1.25rem;
+  color:var(--bg-color);
+  margin: 0;
+}
 
-
+@media all and (max-width:990px){
+  .box-resultado__favorito:after {
+    display: none!important;
+  }
+}
