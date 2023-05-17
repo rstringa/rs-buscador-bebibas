@@ -9,7 +9,6 @@ export const VerFavoritos = ({ favoritos, EsFavorito, handleToogleItemFavorito, 
                 <li className={`box-resultado__item id-${favorito.idDrink}`} key={favorito.idDrink}>
 
                     <img
-                        loading="lazy"
                         className='box-resultado__img'
                         src={favorito.strDrinkThumb} alt={favorito.strDrink} />
                     <div className='box-resultado__item__info'>

@@ -65,7 +65,6 @@ const Modal = ({ bebidaSeleccionada, setBebidaSeleccionada, handleCloseModal, se
       <div className="modal-content">
 
         <img
-          loading="lazy"
           className='modal-content__image'
           src={bebidaSeleccionada.strDrinkThumb} alt={bebidaSeleccionada.strDrink}
         />
