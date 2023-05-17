@@ -12,3 +12,12 @@ export function notificacionFavorito(mensaje){
       document.querySelector(".mensaje-favorito").remove();
     },2500)
 }
+export function scrollResultado() {
+  const divResultado = document.querySelector("#resultado");
+  const topOffset = divResultado.offsetTop;
+
+  window.scrollTo({
+    top: topOffset,
+    behavior: 'smooth'
+  });
+}

@@ -9,10 +9,11 @@ import { VerFavoritos } from './components/VerFavoritos';
 /* Extras */
 import Lottie from "lottie-react";
 import CoctailAnimation from "./assets/coctail-animation.json";
-import { notificacionFavorito } from "./helpers/helpers";
+import { notificacionFavorito, scrollResultado } from "./helpers/helpers";
 import { Header } from './components/Header';
 
 function App() {
+
   const [bebida, setBebida] = useState("")
   const [bebidas, setBebidas] = useState([])
   const [categoria, setCategoria] = useState("")
@@ -78,15 +79,17 @@ obtenerCategorias()
         setPantallaError(false);
         setVerFavoritos(false);
         setBebidas([]);
-        window.scroll({
-          top: 150,
-          behavior: 'smooth'
-        });
+       
+        
         setTimeout(() => {
           setBebidas(data.drinks.map((bebida) => ({ ...bebida, detalles: null })));
           setShowSpinner(false);
+          
+          scrollResultado();
+        
 
         }, 1500); // Mostrar el spinner durante 2 segundos
+       
 
       } else {
         setBebidas([]);
@@ -129,7 +132,6 @@ const handleVolverPantallaInicial = (e) => {
     setBebidaSeleccionada(null);
     body.classList.toggle('modal--open');
   };
-
 
 
   const EsFavorito = (bebida) => {
@@ -230,7 +232,7 @@ const handleVolverPantallaInicial = (e) => {
         </div>
       }
 
-      <div className='box-resultado'>
+      <div className='box-resultado' id="resultado">
         {showSpinner &&
           <Spinner />
         }

@@ -6,12 +6,12 @@ export const Header = ({handleVolverPantallaInicial,handleVerFavoritos,handleSub
     
     
       /* Fix Buscador on Scroll */
-  const [scroll, setScroll] = useState(false);
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      setScroll(window.scrollY > (document.body.scrollHeight - 1500) && window.scrollY > 2000);
-    });
-  }, []);
+  // const [scroll, setScroll] = useState(false);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", () => {
+  //     setScroll(window.scrollY > (document.body.scrollHeight - 1500) && window.scrollY > 2000);
+  //   });
+  // }, []);
 
 
   const handleFormSubmit = (event) => {
