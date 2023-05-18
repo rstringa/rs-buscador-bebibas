@@ -1,6 +1,7 @@
 .spinner {
   display: flex;
   justify-content: center;
+  margin: 60px 0;
 }
 .sk-chase{
     width: 40px;

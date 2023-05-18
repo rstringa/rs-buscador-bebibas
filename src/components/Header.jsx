@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ImStarFull } from "react-icons/im";
 import { ImHome } from "react-icons/im";
 
-export const Header = ({handleVolverPantallaInicial,handleVerFavoritos,handleSubmit,bebida,setBebida,setCategoria, favoritos, setFavoritos, categoria,opcionesCategoria}) => {
+export const Header = ({handleVolverPantallaInicial,handleVerFavoritos,handleSubmit,bebida,setBebida, setCategoria, favoritos, setFavoritos, categoria,opcionesCategoria}) => {
     
     
       /* Fix Buscador on Scroll */
@@ -14,10 +14,7 @@ export const Header = ({handleVolverPantallaInicial,handleVerFavoritos,handleSub
   }, []);
 
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault(); // Evita que el formulario se envíe automáticamente
-    handleSubmit();
-  };
+
 
     return (
         <>
@@ -71,7 +68,6 @@ export const Header = ({handleVolverPantallaInicial,handleVerFavoritos,handleSub
   
               <button
                 type="submit"
-                onKeyDown={handleFormSubmit}
                 className="box-buscador__submit">Buscar Bebidas</button>
                 
             </div>

@@ -10,7 +10,8 @@ import { VerFavoritos } from './components/VerFavoritos';
 import Lottie from "lottie-react";
 import CoctailAnimation from "./assets/coctail-animation.json";
 import { notificacionFavorito, scrollResultado } from "./helpers/helpers";
-import { Header } from './components/Header';
+import { ImStarFull } from "react-icons/im";
+import { ImHome } from "react-icons/im";
 
 function App() {
 
@@ -55,21 +56,26 @@ obtenerCategorias()
   const obtenerListadoTragos = async () => {
     let url = "";
 
-    if (categoria && bebida) {
+    if ((categoria.length !== 0) && bebida) {
 
       url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoria}&s=${bebida}`;
-    } else if (categoria && !bebida) {
+
+    } else if ((categoria.length !== 0) && !bebida) {
 
       url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoria}`;
-    } else if (!categoria && bebida) {
+
+    } else if ((categoria.length === 0) && bebida) {
 
       url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${bebida}`;
     }
 
     let response = await fetch(url);
-
+    
+    console.log(url);
     try {
       let data = await response.json();
+      
+      console.log(data);
 
       // Verificar si existen bebidas en los datos
       if (data.drinks) {
@@ -93,6 +99,7 @@ obtenerCategorias()
 
       } else {
         setBebidas([]);
+        setPantallaError(true);
         setPantallaInicial(true);
       }
     } catch (error) {
@@ -139,6 +146,7 @@ const handleVolverPantallaInicial = (e) => {
     const existeFavorito = favoritosStorage && favoritosStorage.some(favorito => favorito.idDrink === bebida.idDrink);
     return existeFavorito;
   }
+
   const handleVerFavoritos = () => {
     setVerFavoritos(true);
     setPantallaInicial(false);
@@ -203,22 +211,74 @@ const handleVolverPantallaInicial = (e) => {
   }
 
 
+        /* Fix Buscador on Scroll */
+        const [scroll, setScroll] = useState(false);
+        useEffect(() => {
+          window.addEventListener("scroll", () => {
+            setScroll(window.scrollY > (document.body.scrollHeight - 1500) && window.scrollY > 2000);
+          });
+        }, []);
+
   return (
     <>
 
-      <Header 
-      handleVolverPantallaInicial = {handleVolverPantallaInicial}
-      handleVerFavoritos={handleVerFavoritos}
-      handleSubmit={handleSubmit}
-      bebida={bebida}
-      setBebida={setBebida}
-      categoria={categoria}
-      setCategoria={setCategoria}
-      favoritos={favoritos}
-      setFavoritos={setFavoritos}
-      opcionesCategoria={opcionesCategoria}
-      />
 
+      <h1 className='titulo'>Cocktails & Tragos</h1>
+        <h3 className='subtitulo'>Buscador de bebidas</h3>
+        <div className={scroll ? "box-buscador is--fixed" : "box-buscador"}>
+          <div
+            className="box-buscador__reset"
+            onClick={handleVolverPantallaInicial}>
+            <ImHome />
+          </div>
+          <div
+            onClick={handleVerFavoritos}
+            className={`header-favoritos ${favoritos.length ? 'tiene--favoritos' : 'sin--favoritos'}`}>
+            <ImStarFull
+              className="btn-favorito"
+            />Mis Favoritos ({favoritos.length})
+          </div>
+          <form className="box-buscador__form" onSubmit={handleSubmit}>
+            <div className='box-buscador__col'>
+              <label className="box-buscador__label" htmlFor="nombre">Nombre del trago</label>
+              <input
+                placeholder="Ej: Tequila, Vodka, etc"
+                name="nombre"
+                type="text"
+                id="nombre"
+                className="box-buscador__text"
+                value={bebida}
+                onChange={e => setBebida(e.target.value)}
+              />
+            </div>
+            <div className='box-buscador__col'>
+              <label className="box-buscador__label" htmlFor="categoria">Categoría del trago</label>
+              <select
+                name="categoria"
+                className="box-buscador__select"
+                id="categoria"
+                value={categoria}
+                onChange={function (e) {
+                  return setCategoria(e.target.value)
+                }}
+              >
+                <option value="">- Selecciona Categoria -</option>
+                {opcionesCategoria.map((opcion, index) => (
+                  <option key={index}>{opcion}</option>
+                ))}
+              </select>
+              <div className="caret"></div>
+            </div>
+            <div className='box-buscador__col col--last'>
+  
+              <button
+                type="submit"
+                className="box-buscador__submit">Buscar Bebidas</button>
+                
+            </div>
+          </form>
+        </div>
+      <div id="scrollResultado"></div>            
       {pantallaError &&
         <div className='box-error'>
           <h3>No hay tragos en esa búsqueda.</h3>
@@ -231,11 +291,12 @@ const handleVolverPantallaInicial = (e) => {
 
         </div>
       }
-
-      <div className='box-resultado' id="resultado">
-        {showSpinner &&
+      {showSpinner &&
           <Spinner />
         }
+     { bebidas.length !== 0 &&
+      <div className='box-resultado' id="resultado">
+        
         <ResultadosBusqueda
           bebidas={bebidas}
           EsFavorito={EsFavorito}
@@ -244,7 +305,7 @@ const handleVolverPantallaInicial = (e) => {
         />
 
       </div>
-
+      }
       {bebidaSeleccionada &&
 
         <Modal
@@ -258,7 +319,6 @@ const handleVolverPantallaInicial = (e) => {
       {verFavoritos &&
         <div className='box-favoritos'>
           <h2 className='box-favoritos__titulo'>Mis Favoritos</h2>
-
           <div className='box-resultado'>
             {hayFavoritos ?
               (

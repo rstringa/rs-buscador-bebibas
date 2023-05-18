@@ -159,7 +159,8 @@ h3.subtitulo {
 
 /* Box Resultado */
 .box-resultado {
-  padding-top: 40px;
+  padding-top: 60px;
+  min-height: 400px;
 }
 .box-resultado ul{
   list-style: none;
@@ -420,7 +421,7 @@ h3.subtitulo {
   fill:var(--primary-color-light);
 }
 .box-favoritos {
-  margin-top: -10px;
+  margin-top: 60px;
 }
 .box-favoritos .box-favoritos__titulo {
   text-align: center;

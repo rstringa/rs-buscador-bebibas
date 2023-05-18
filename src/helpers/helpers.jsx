@@ -13,11 +13,17 @@ export function notificacionFavorito(mensaje){
     },2500)
 }
 export function scrollResultado() {
-  const divResultado = document.querySelector("#resultado");
-  const topOffset = divResultado.offsetTop;
-
-  window.scrollTo({
-    top: topOffset,
-    behavior: 'smooth'
-  });
+  
+  const scrollResultado = document.querySelector("#scrollResultado");
+  if( scrollResultado && window.outerWidth <= 767 ) {
+  const topOffset = scrollResultado.offsetTop;
+ 
+  setTimeout(function(){
+    window.scrollTo({
+      top: topOffset,
+      behavior: 'smooth'
+    });
+  },500)
+ 
+}
 }
