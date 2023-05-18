@@ -153,10 +153,7 @@ const handleVolverPantallaInicial = (e) => {
     setPantallaError(false);
     setBebidas([]);
     setShowSpinner(true);
-    window.scroll({
-      top: 200,
-      behavior: 'smooth'
-    });
+    scrollResultado();
     // Listado de Favoritos desde LocalStorage
     const nuevosFavoritos = JSON.parse(localStorage.getItem('favoritos'));
     setFavoritos(nuevosFavoritos || []);
